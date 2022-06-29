@@ -65,9 +65,6 @@ class Frame {
       this.leftWheel[1],
       this.middleWheel[1],
       this.rightWheel[1],
-      // "@",
-      // "@",
-      // "@",
       this.leftWheel[2],
       this.middleWheel[2],
       this.rightWheel[2],
@@ -147,8 +144,18 @@ async function startSlots() {
   let counter = 1;
   let frame;
   let inputContinue = "placeholder";
-  while (inputContinue.toLowerCase() !== "no") {
-    input = prompt("How much would you like to bet?");
+  while (inputContinue.toLowerCase() !== "no" && newLedger.balance !== 0) {
+    input = prompt(
+      "How much would you like to bet? \n You have: $" + newLedger.balance
+    );
+    while (input > newLedger.balance || isNaN(Number(input)) === true) {
+      if (input > newLedger.balance) {
+        alert("You don't have that much money!");
+      } else {
+        alert("Please enter a number!");
+      }
+      input = prompt("How much would you like to bet?");
+    }
     while (counter < 37) {
       await sleep();
       console.clear();
@@ -198,7 +205,12 @@ async function startSlots() {
       counter++;
     }
     counter = 0;
-    inputContinue = prompt("Would you like to play again? ");
+    inputContinue = prompt("Would you like to play again? (yes/no)");
+  }
+  if (inputContinue.toLowerCase() === "yes") {
+    alert("You're out of money. Thanks for playing!");
+  } else {
+    alert("Thanks for playing!");
   }
 }
 
